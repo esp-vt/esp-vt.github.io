@@ -1,0 +1,139 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BlogPostCard from '../../components/BlogPostCard.astro';
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('blog');
+const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+// Collect unique tags
+const allTags = ['All', ...Array.from(new Set(posts.flatMap((p) => p.data.tags)))];
+---
+
+<BaseLayout title="Blog | Eun" description="Technical articles and insights on AI systems, security, and web development.">
+  <div class="container page-container">
+    <header class="page-header">
+      <h1 class="page-title" data-i18n="section.all_posts">기술 블로그</h1>
+      <p class="page-desc">
+        연구 및 개발 과정에서 얻은 인사이트와 기술적 기록들을 공유합니다.
+      </p>
+
+      <!-- Tag Filters -->
+      <div class="tag-filter-bar">
+        {allTags.map((tag, idx) => (
+          <button
+            class:list={['tag-btn', { active: idx === 0 }]}
+            data-tag={tag}
+            type="button"
+          >
+            {tag === 'All' ? '전체 보기' : `#${tag}`}
+          </button>
+        ))}
+      </div>
+    </header>
+
+    <div class="posts-grid">
+      {sortedPosts.map((post) => (
+        <div class="post-item" data-tags={JSON.stringify(post.data.tags)}>
+          <BlogPostCard
+            title={post.data.title}
+            description={post.data.description}
+            pubDate={post.data.pubDate}
+            slug={post.slug}
+            tags={post.data.tags}
+          />
+        </div>
+      ))}
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .page-container {
+    padding-top: 3rem;
+    padding-bottom: 5rem;
+  }
+
+  .page-header {
+    margin-bottom: 2.5rem;
+    text-align: center;
+  }
+
+  .page-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  .page-desc {
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin: 0 auto 2rem;
+  }
+
+  .tag-filter-bar {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .tag-btn {
+    padding: 0.4rem 0.85rem;
+    border-radius: var(--radius-full);
+    font-size: 0.85rem;
+    font-weight: 600;
+    background-color: var(--bg-secondary);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+    transition: all var(--transition-fast);
+  }
+
+  .tag-btn:hover {
+    border-color: var(--border-hover);
+    color: var(--text-primary);
+  }
+
+  .tag-btn.active {
+    background: var(--accent-gradient);
+    color: #ffffff;
+    border-color: transparent;
+    box-shadow: 0 2px 8px var(--accent-glow);
+  }
+
+  .posts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .post-item.hidden {
+    display: none;
+  }
+</style>
+
+<script is:inline>
+  const tagBtns = document.querySelectorAll('.tag-btn');
+  const postItems = document.querySelectorAll('.post-item');
+
+  tagBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const selectedTag = btn.getAttribute('data-tag');
+
+      tagBtns.forEach((b) => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      postItems.forEach((item) => {
+        const itemTags = JSON.parse(item.getAttribute('data-tags') || '[]');
+        if (selectedTag === 'All' || itemTags.includes(selectedTag)) {
+          item.classList.remove('hidden');
+        } else {
+          item.classList.add('hidden');
+        }
+      });
+    });
+  });
+</script>

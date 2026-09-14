@@ -1,0 +1,408 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import BlogPostCard from '../components/BlogPostCard.astro';
+import Timeline from '../components/Timeline.astro';
+import { getCollection } from 'astro:content';
+import { SITE_CONFIG } from '../site.config';
+
+const allPosts = await getCollection('blog');
+const recentPosts = allPosts
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
+
+const allProjects = await getCollection('projects');
+const featuredProjects = allProjects
+  .filter((p) => p.data.featured)
+  .sort((a, b) => a.data.order - b.data.order);
+
+const techStacks = [
+  { category: 'Confidential Hardware & TEE', skills: ['AMD SEV-SNP', 'Intel TDX', 'Intel SGX', 'NVIDIA H100 CC', 'PCIe SPDM/IDE', 'Remote Attestation'] },
+  { category: 'Trustworthy AI & LLM', skills: ['PyTorch', 'HuggingFace', 'LoRA / PEFT', 'CUDA', 'Data Lineage', 'VFS Interception'] },
+  { category: 'Systems & Cloud Security', skills: ['Linux Kernel', 'Linux IMA', 'dm-verity', 'C/C++', 'Rust', 'Python', 'Docker', 'Kubernetes'] },
+];
+---
+
+<BaseLayout title={`${SITE_CONFIG.name} | ${SITE_CONFIG.role}`}>
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container hero-container">
+      <div class="hero-content">
+        <div class="status-badge-wrapper">
+          <span class="badge hero-badge">
+            <span class="live-dot"></span>
+            <span data-i18n="hero.badge">Virginia Tech Graduate Researcher</span>
+          </span>
+        </div>
+
+        <h1 class="hero-title">
+          <span class="greeting" data-i18n="hero.greeting">안녕하세요,</span><br />
+          <span class="gradient-text">{SITE_CONFIG.name}</span> <span class="korean-name">({SITE_CONFIG.koreanName})</span>입니다.
+        </h1>
+
+        <p class="hero-role">{SITE_CONFIG.role}</p>
+        <p class="hero-desc" data-i18n="hero.desc">{SITE_CONFIG.description}</p>
+
+        <div class="hero-actions">
+          <a href="/projects" class="btn btn-primary" data-i18n="hero.view_projects">
+            연구 & 프로젝트 보기 →
+          </a>
+          <a href="/blog" class="btn btn-secondary" data-i18n="hero.read_blog">
+            기술 블로그 읽기
+          </a>
+          <a href="/about" class="btn btn-secondary" data-i18n="hero.resume">
+            소개 & 이력서 (CV)
+          </a>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="avatar-glow-ring">
+          <div class="avatar-card">
+            <div class="code-terminal-mockup">
+              <div class="terminal-dots">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+              </div>
+              <div class="terminal-code">
+                <p><span class="tok-kw">const</span> <span class="tok-var">researcher</span> = {'{'}</p>
+                <p>&nbsp;&nbsp;name: <span class="tok-str">"{SITE_CONFIG.name}"</span>,</p>
+                <p>&nbsp;&nbsp;affiliation: <span class="tok-str">"Virginia Tech"</span>,</p>
+                <p>&nbsp;&nbsp;focus: [<span class="tok-str">"TEE Security"</span>, <span class="tok-str">"Confidential ML"</span>, <span class="tok-str">"Data Lineage"</span>],</p>
+                <p>&nbsp;&nbsp;flagship: <span class="tok-str">"ConfML-Trust 🛡️"</span>,</p>
+                <p>&nbsp;&nbsp;contact: <span class="tok-str">"{SITE_CONFIG.email}"</span></p>
+                <p>{'}'};</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Projects Section -->
+  <section class="section-container">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title" data-i18n="section.featured_projects">대표 연구 및 프로젝트</h2>
+          <p class="section-subtitle" data-i18n="section.featured_projects_desc">
+            Virginia Tech에서 진행 중인 TEE 기반 기밀 머신러닝 및 데이터 프로비넌스 핵심 연구입니다.
+          </p>
+        </div>
+        <a href="/projects" class="section-more-link" data-i18n="section.all_projects">전체 연구 보기 →</a>
+      </div>
+
+      <div class="grid grid-3">
+        {featuredProjects.map((project) => (
+          <ProjectCard
+            title={project.data.title}
+            description={project.data.description}
+            tags={project.data.tags}
+            category={project.data.category}
+            github={project.data.github}
+            demo={project.data.demo}
+            paper={project.data.paper}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Tech Stack Section -->
+  <section class="section-container bg-alt">
+    <div class="container">
+      <div class="section-header text-center">
+        <div>
+          <h2 class="section-title" data-i18n="section.tech_stack">연구 & 엔지니어링 기술 스택</h2>
+          <p class="section-subtitle">시스템 보안 및 신뢰 가능한 AI 연구에 활용하는 핵심 기술입니다.</p>
+        </div>
+      </div>
+
+      <div class="grid grid-3">
+        {techStacks.map((group) => (
+          <div class="card stack-card">
+            <h3 class="stack-category">{group.category}</h3>
+            <div class="stack-tags">
+              {group.skills.map((skill) => (
+                <span class="tech-pill">{skill}</span>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Recent Blog Posts Section -->
+  <section class="section-container">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title" data-i18n="section.recent_posts">최신 기술 포스팅</h2>
+          <p class="section-subtitle" data-i18n="section.recent_posts_desc">
+            기밀 컴퓨팅, TEE 아키텍처, 데이터 무결성 및 LLM 보안에 관한 인사이트를 공유합니다.
+          </p>
+        </div>
+        <a href="/blog" class="section-more-link" data-i18n="section.all_posts">전체 글 보기 →</a>
+      </div>
+
+      <div class="grid grid-3">
+        {recentPosts.map((post) => (
+          <BlogPostCard
+            title={post.data.title}
+            description={post.data.description}
+            pubDate={post.data.pubDate}
+            slug={post.slug}
+            tags={post.data.tags}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Timeline Section -->
+  <section class="section-container bg-alt">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title" data-i18n="section.timeline">학력 & 연구 이력</h2>
+          <p class="section-subtitle">Virginia Tech 및 학술/엔지니어링 여정입니다.</p>
+        </div>
+      </div>
+
+      <Timeline />
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero-section {
+    padding: 4.5rem 0 3.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-container {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 3rem;
+    align-items: center;
+  }
+
+  .status-badge-wrapper {
+    margin-bottom: 1.25rem;
+  }
+
+  .hero-badge {
+    padding: 0.35rem 0.85rem;
+  }
+
+  .live-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #10b981;
+    display: inline-block;
+    box-shadow: 0 0 8px #10b981;
+  }
+
+  .hero-title {
+    font-size: 2.8rem;
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    color: var(--text-primary);
+    margin-bottom: 0.75rem;
+  }
+
+  .greeting {
+    font-weight: 600;
+    font-size: 1.8rem;
+    color: var(--text-secondary);
+  }
+
+  .korean-name {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+  }
+
+  .hero-role {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--accent-primary);
+    margin-bottom: 1rem;
+  }
+
+  .hero-desc {
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+    line-height: 1.65;
+    margin-bottom: 2rem;
+    max-width: 520px;
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .hero-visual {
+    display: flex;
+    justify-content: center;
+  }
+
+  .avatar-glow-ring {
+    position: relative;
+    width: 100%;
+    max-width: 380px;
+  }
+
+  .avatar-glow-ring::before {
+    content: '';
+    position: absolute;
+    inset: -15px;
+    background: var(--accent-gradient);
+    border-radius: var(--radius-lg);
+    filter: blur(25px);
+    opacity: 0.25;
+    z-index: 0;
+  }
+
+  .avatar-card {
+    position: relative;
+    z-index: 1;
+  }
+
+  .code-terminal-mockup {
+    background-color: #0f172a;
+    border: 1px solid #1e293b;
+    border-radius: var(--radius-lg);
+    padding: 1.25rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    font-family: var(--font-mono);
+  }
+
+  .terminal-dots {
+    display: flex;
+    gap: 0.4rem;
+    margin-bottom: 1rem;
+  }
+
+  .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+
+  .dot.red { background-color: #ef4444; }
+  .dot.yellow { background-color: #f59e0b; }
+  .dot.green { background-color: #10b981; }
+
+  .terminal-code {
+    font-size: 0.85rem;
+    line-height: 1.7;
+    color: #e2e8f0;
+  }
+
+  .tok-kw { color: #f43f5e; font-weight: 600; }
+  .tok-var { color: #38bdf8; }
+  .tok-str { color: #a3e635; }
+
+  .section-container {
+    padding: 4rem 0;
+  }
+
+  .section-container.bg-alt {
+    background-color: var(--bg-tertiary);
+  }
+
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 2.25rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .section-header.text-center {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .section-title {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+  }
+
+  .section-subtitle {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    margin-top: 0.35rem;
+  }
+
+  .section-more-link {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--accent-primary);
+  }
+
+  .grid {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .grid-3 {
+    grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  }
+
+  .stack-card {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .stack-category {
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 0.85rem;
+    color: var(--text-primary);
+  }
+
+  .stack-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .tech-pill {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    padding: 0.3rem 0.65rem;
+    border-radius: var(--radius-sm);
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+  }
+
+  @media (max-width: 860px) {
+    .hero-container {
+      grid-template-columns: 1fr;
+      text-align: center;
+    }
+    .hero-desc {
+      margin: 0 auto 2rem;
+    }
+    .hero-actions {
+      justify-content: center;
+    }
+    .hero-title {
+      font-size: 2.2rem;
+    }
+  }
+</style>

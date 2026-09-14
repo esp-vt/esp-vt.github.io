@@ -1,0 +1,93 @@
+---
+import { SITE_CONFIG } from '../site.config';
+---
+
+<div class="giscus-section card">
+  <div class="giscus-header">
+    <h3 class="giscus-title" data-i18n="post.comments">댓글</h3>
+    <span class="badge">GitHub Discussions</span>
+  </div>
+  <p class="giscus-note">
+    GitHub 계정으로 로그인하여 자유롭게 질문이나 의견을 남겨주세요.
+  </p>
+
+  <div class="giscus-container">
+    <div class="giscus"></div>
+  </div>
+</div>
+
+<style>
+  .giscus-section {
+    margin-top: 3rem;
+  }
+
+  .giscus-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+  }
+
+  .giscus-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+  }
+
+  .giscus-note {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+  }
+
+  .giscus-container {
+    min-height: 150px;
+  }
+</style>
+
+<script is:inline define:vars={{ config: SITE_CONFIG.giscus }}>
+  function loadGiscus() {
+    const isDark = document.documentElement.classList.contains('dark');
+    const theme = isDark ? 'dark_dimmed' : 'light';
+
+    // Only load if valid repo is configured
+    if (config.repo && !config.repo.includes('your-username')) {
+      const script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      script.setAttribute('data-repo', config.repo);
+      script.setAttribute('data-repo-id', config.repoId);
+      script.setAttribute('data-category', config.category);
+      script.setAttribute('data-category-id', config.categoryId);
+      script.setAttribute('data-mapping', config.mapping);
+      script.setAttribute('data-strict', '0');
+      script.setAttribute('data-reactions-enabled', config.reactionsEnabled);
+      script.setAttribute('data-emit-metadata', '0');
+      script.setAttribute('data-input-position', 'bottom');
+      script.setAttribute('data-theme', theme);
+      script.setAttribute('data-lang', 'ko');
+      script.crossOrigin = 'anonymous';
+      script.async = true;
+
+      const container = document.querySelector('.giscus');
+      if (container) {
+        container.innerHTML = '';
+        container.appendChild(script);
+      }
+    }
+  }
+
+  loadGiscus();
+
+  // Re-sync Giscus theme when dark mode toggles
+  window.addEventListener('storage', (e) => {
+    if (e.key === 'theme') {
+      const iframe = document.querySelector('iframe.giscus-frame');
+      if (iframe) {
+        const isDark = document.documentElement.classList.contains('dark');
+        iframe.contentWindow.postMessage(
+          { giscus: { setConfig: { theme: isDark ? 'dark_dimmed' : 'light' } } },
+          'https://giscus.app'
+        );
+      }
+    }
+  });
+</script>

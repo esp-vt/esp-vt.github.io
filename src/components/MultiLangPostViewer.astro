@@ -1,0 +1,250 @@
+---
+import { LANGUAGES } from '../site.config';
+---
+
+<div class="multilang-reader-bar card">
+  <div class="reader-header">
+    <div class="reader-icon-title">
+      <span class="globe-anim">🌐</span>
+      <span class="reader-title" data-i18n="post.translate_notice">언어별 실시간 번역 열람:</span>
+    </div>
+    <span class="badge ai-badge">Instant Multi-Language</span>
+  </div>
+
+  <div class="lang-pills">
+    {LANGUAGES.map((lang) => (
+      <button
+        class="lang-pill-btn"
+        data-target-lang={lang.code}
+        type="button"
+        title={`Translate to ${lang.label} (${lang.nativeName})`}
+      >
+        <span class="pill-flag">{lang.flag}</span>
+        <span class="pill-text">{lang.nativeName}</span>
+      </button>
+    ))}
+  </div>
+  
+  <div id="translation-status" class="translation-status hidden">
+    <span class="status-dot"></span>
+    <span class="status-msg">Translating article...</span>
+  </div>
+</div>
+
+<style>
+  .multilang-reader-bar {
+    margin-bottom: 2rem;
+    padding: 1.1rem 1.35rem;
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+  }
+
+  .reader-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.85rem;
+  }
+
+  .reader-icon-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .globe-anim {
+    font-size: 1.1rem;
+  }
+
+  .ai-badge {
+    font-size: 0.7rem;
+  }
+
+  .lang-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .lang-pill-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.75rem;
+    border-radius: var(--radius-full);
+    background-color: var(--bg-tertiary);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+    font-size: 0.82rem;
+    font-weight: 500;
+    transition: all var(--transition-fast);
+  }
+
+  .lang-pill-btn:hover {
+    border-color: var(--accent-primary);
+    color: var(--accent-primary);
+    transform: translateY(-1px);
+  }
+
+  .lang-pill-btn.active {
+    background: var(--accent-gradient);
+    color: #ffffff;
+    border-color: transparent;
+    box-shadow: 0 2px 8px var(--accent-glow);
+  }
+
+  .pill-flag {
+    font-size: 0.95rem;
+  }
+
+  .translation-status {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-top: 0.75rem;
+    padding-top: 0.5rem;
+    border-top: 1px dashed var(--border-color);
+  }
+
+  .translation-status.hidden {
+    display: none;
+  }
+
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--accent-primary);
+    animation: pulse 1s infinite alternate;
+  }
+
+  @keyframes pulse {
+    from { opacity: 0.3; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1.2); }
+  }
+</style>
+
+<script is:inline>
+  (function setupMultilangReader() {
+    const pills = document.querySelectorAll('.lang-pill-btn');
+    const statusEl = document.getElementById('translation-status');
+    const statusMsg = statusEl?.querySelector('.status-msg');
+
+    let originalHtml = null;
+    const articleBody = document.querySelector('article .prose');
+
+    if (articleBody) {
+      originalHtml = articleBody.innerHTML;
+    }
+
+    // Google Translate Element initialization
+    let googleTranslateInitialized = false;
+
+    function initGoogleTranslate() {
+      if (googleTranslateInitialized) return;
+      
+      const div = document.createElement('div');
+      div.id = 'google_translate_element';
+      div.style.display = 'none';
+      document.body.appendChild(div);
+
+      const script = document.createElement('script');
+      script.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+      script.async = true;
+      document.body.appendChild(script);
+
+      window.googleTranslateElementInit = function() {
+        new window.google.translate.TranslateElement({
+          pageLanguage: 'ko',
+          includedLanguages: 'ko,en,zh-CN,ja,pl,de',
+          autoDisplay: false
+        }, 'google_translate_element');
+        googleTranslateInitialized = true;
+      };
+    }
+
+    function triggerTranslation(targetLang) {
+      pills.forEach((p) => {
+        if (p.getAttribute('data-target-lang') === targetLang) {
+          p.classList.add('active');
+        } else {
+          p.classList.remove('active');
+        }
+      });
+
+      // Map to google translate code
+      const gCodeMap = {
+        'ko': 'ko',
+        'en': 'en',
+        'zh': 'zh-CN',
+        'ja': 'ja',
+        'pl': 'pl',
+        'de-CH': 'de', // Swiss German falls back to German (de) with Swiss context
+      };
+
+      const gCode = gCodeMap[targetLang] || 'ko';
+
+      if (targetLang === 'ko') {
+        // Reset translation
+        const select = document.querySelector('.goog-te-combo');
+        if (select) {
+          select.value = 'ko';
+          select.dispatchEvent(new Event('change'));
+        }
+        if (statusEl) statusEl.classList.add('hidden');
+        return;
+      }
+
+      initGoogleTranslate();
+
+      if (statusEl && statusMsg) {
+        statusEl.classList.remove('hidden');
+        statusMsg.textContent = `Translating to ${targetLang.toUpperCase()}...`;
+      }
+
+      // Trigger translate combo
+      const checkInterval = setInterval(() => {
+        const select = document.querySelector('.goog-te-combo');
+        if (select) {
+          select.value = gCode;
+          select.dispatchEvent(new Event('change'));
+          clearInterval(checkInterval);
+          if (statusEl && statusMsg) {
+            statusMsg.textContent = `Displaying in ${targetLang.toUpperCase()} (Code blocks & math preserved)`;
+          }
+        }
+      }, 300);
+
+      setTimeout(() => clearInterval(checkInterval), 5000);
+    }
+
+    pills.forEach((pill) => {
+      pill.addEventListener('click', () => {
+        const target = pill.getAttribute('data-target-lang');
+        if (target) {
+          triggerTranslation(target);
+        }
+      });
+    });
+
+    // Listen to global site-language changes
+    window.addEventListener('site-language-changed', (e) => {
+      if (e.detail && e.detail.lang) {
+        triggerTranslation(e.detail.lang);
+      }
+    });
+
+    // Initial state
+    const currentLang = localStorage.getItem('site_lang') || 'ko';
+    pills.forEach((p) => {
+      if (p.getAttribute('data-target-lang') === currentLang) {
+        p.classList.add('active');
+      }
+    });
+  })();
+</script>

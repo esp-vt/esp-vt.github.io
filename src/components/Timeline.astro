@@ -1,0 +1,173 @@
+---
+interface TimelineItem {
+  period: string;
+  title: string;
+  organization: string;
+  description: string;
+  tags?: string[];
+  type?: 'research' | 'education' | 'work';
+}
+
+const timelineData: TimelineItem[] = [
+  {
+    period: '2024 - Present',
+    title: 'Ph.D. Student & Graduate Researcher',
+    organization: 'Virginia Tech (CS / ECE)',
+    description: 'Conducting research on hardware-anchored confidential machine learning (ConfML-Trust), non-bypassable data provenance measurement, AMD SEV-SNP / Intel TDX, and NVIDIA Hopper H100 CC integration for secure LLM fine-tuning.',
+    tags: ['TEE', 'AMD SEV-SNP', 'Intel TDX', 'Hopper H100 CC', 'Confidential ML', 'Data Provenance', 'PyTorch'],
+    type: 'research',
+  },
+  {
+    period: '2018 - 2022',
+    title: 'B.S. in Computer Science & Engineering',
+    organization: 'Undergraduate Program',
+    description: 'Solid foundation in Operating Systems, Computer Architecture, Cryptography, Distributed Systems, Network Security, and Deep Learning algorithms.',
+    tags: ['Systems', 'OS', 'Algorithms', 'C/C++', 'Python', 'Security'],
+    type: 'education',
+  },
+];
+---
+
+<div class="timeline-container">
+  {timelineData.map((item, index) => (
+    <div class="timeline-item">
+      <div class="timeline-marker">
+        <div class="marker-dot"></div>
+        {index !== timelineData.length - 1 && <div class="marker-line"></div>}
+      </div>
+
+      <div class="timeline-content card">
+        <div class="content-header">
+          <span class="period-badge">{item.period}</span>
+          <span class="type-badge">{item.type}</span>
+        </div>
+        <h4 class="item-title">{item.title}</h4>
+        <div class="item-org">{item.organization}</div>
+        <p class="item-desc">{item.description}</p>
+        {item.tags && (
+          <div class="item-tags">
+            {item.tags.map((tag) => (
+              <span class="tech-tag">{tag}</span>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  ))}
+</div>
+
+<style>
+  .timeline-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    position: relative;
+  }
+
+  .timeline-item {
+    display: flex;
+    gap: 1.5rem;
+    position: relative;
+  }
+
+  .timeline-marker {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 24px;
+    flex-shrink: 0;
+  }
+
+  .marker-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--accent-gradient);
+    border: 3px solid var(--bg-primary);
+    box-shadow: 0 0 0 2px var(--accent-primary);
+    z-index: 2;
+    margin-top: 1.5rem;
+  }
+
+  .marker-line {
+    flex: 1;
+    width: 2px;
+    background-color: var(--border-color);
+    margin-top: 0.25rem;
+  }
+
+  .timeline-content {
+    flex: 1;
+  }
+
+  .content-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.6rem;
+  }
+
+  .period-badge {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--accent-primary);
+  }
+
+  .type-badge {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    padding: 0.15rem 0.5rem;
+    border-radius: var(--radius-sm);
+    background-color: var(--bg-tertiary);
+    color: var(--text-muted);
+    border: 1px solid var(--border-color);
+  }
+
+  .item-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+  }
+
+  .item-org {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 0.75rem;
+  }
+
+  .item-desc {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 0.85rem;
+  }
+
+  .item-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+
+  .tech-tag {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: var(--radius-sm);
+    background-color: var(--bg-tertiary);
+    color: var(--text-muted);
+    border: 1px solid var(--border-color);
+  }
+
+  @media (max-width: 640px) {
+    .timeline-marker {
+      display: none;
+    }
+    .timeline-item {
+      gap: 0;
+    }
+  }
+</style>

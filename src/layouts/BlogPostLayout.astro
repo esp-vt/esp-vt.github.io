@@ -1,0 +1,285 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import TableOfContents from '../components/TableOfContents.astro';
+import GiscusComments from '../components/GiscusComments.astro';
+import MultiLangPostViewer from '../components/MultiLangPostViewer.astro';
+import '../styles/typography.css';
+
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface Props {
+  title: string;
+  description: string;
+  pubDate: Date;
+  updatedDate?: Date;
+  tags: string[];
+  headings: Heading[];
+  author?: string;
+}
+
+const { title, description, pubDate, tags, headings, author = 'Eun' } = Astro.props;
+
+const formattedDate = pubDate.toLocaleDateString('ko-KR', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<BaseLayout title={title} description={description} article={true}>
+  <div class="container article-container">
+    <div class="back-link-wrapper">
+      <a href="/blog" class="back-link" data-i18n="post.back">← 목록으로 돌아가기</a>
+    </div>
+
+    <div class="article-grid">
+      <!-- Main Content Column -->
+      <div class="article-main">
+        <header class="post-header">
+          <div class="post-meta">
+            <time datetime={pubDate.toISOString()}>{formattedDate}</time>
+            <span class="meta-dot">·</span>
+            <span>By {author}</span>
+          </div>
+
+          <h1 class="post-title">{title}</h1>
+          <p class="post-lead">{description}</p>
+
+          <div class="post-tags">
+            {tags.map((tag) => (
+              <span class="tag-badge">#{tag}</span>
+            ))}
+          </div>
+        </header>
+
+        <!-- Multi-language Reader Bar (Korean / English / Chinese / Japanese / Polish / Swiss) -->
+        <MultiLangPostViewer />
+
+        <article class="prose notranslate-code">
+          <slot />
+        </article>
+
+        <!-- Social Share & Navigation -->
+        <div class="article-footer card">
+          <div class="share-title" data-i18n="post.share">이 글 공유하기</div>
+          <div class="share-buttons">
+            <button id="copy-url-btn" class="btn btn-secondary btn-sm" type="button">
+              🔗 링크 복사
+            </button>
+            <a
+              href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(Astro.url.href)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn btn-secondary btn-sm"
+            >
+              🐦 X (Twitter)
+            </a>
+            <a
+              href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(Astro.url.href)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn btn-secondary btn-sm"
+            >
+              💼 LinkedIn
+            </a>
+          </div>
+        </div>
+
+        <!-- Comments Section -->
+        <GiscusComments />
+      </div>
+
+      <!-- Desktop Sidebar TOC -->
+      <aside class="article-sidebar">
+        <TableOfContents headings={headings} />
+      </aside>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .article-container {
+    padding-top: 2rem;
+    padding-bottom: 4rem;
+  }
+
+  .back-link-wrapper {
+    margin-bottom: 1.5rem;
+  }
+
+  .back-link {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    transition: color var(--transition-fast);
+  }
+
+  .back-link:hover {
+    color: var(--accent-primary);
+  }
+
+  .article-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 260px;
+    gap: 3rem;
+    align-items: start;
+  }
+
+  .article-main {
+    min-width: 0;
+  }
+
+  .post-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .post-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    margin-bottom: 0.75rem;
+  }
+
+  .meta-dot {
+    opacity: 0.5;
+  }
+
+  .post-title {
+    font-size: 2.25rem;
+    font-weight: 800;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+    margin-bottom: 0.85rem;
+  }
+
+  .post-lead {
+    font-size: 1.15rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 1.25rem;
+  }
+
+  .post-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .tag-badge {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--accent-primary);
+    background-color: var(--badge-bg);
+    padding: 0.2rem 0.6rem;
+    border-radius: var(--radius-full);
+    border: 1px solid var(--badge-border);
+  }
+
+  .article-footer {
+    margin-top: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 1.25rem;
+  }
+
+  .share-title {
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+
+  .share-buttons {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .btn-sm {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.82rem;
+  }
+
+  @media (max-width: 900px) {
+    .article-grid {
+      grid-template-columns: 1fr;
+    }
+    .article-sidebar {
+      display: none;
+    }
+  }
+</style>
+
+<script is:inline>
+  // Copy URL button
+  const copyBtn = document.getElementById('copy-url-btn');
+  if (copyBtn) {
+    copyBtn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(window.location.href);
+        const originalText = copyBtn.textContent;
+        copyBtn.textContent = '✓ 복사 완료!';
+        setTimeout(() => {
+          copyBtn.textContent = originalText;
+        }, 2000);
+      } catch (err) {
+        console.error('Failed to copy URL', err);
+      }
+    });
+  }
+
+  // Add Copy Button to all pre code blocks
+  document.querySelectorAll('pre').forEach((pre) => {
+    // Add notranslate to protect code
+    pre.classList.add('notranslate');
+
+    const wrapper = document.createElement('div');
+    wrapper.style.position = 'relative';
+    pre.parentNode?.insertBefore(wrapper, pre);
+    wrapper.appendChild(pre);
+
+    const btn = document.createElement('button');
+    btn.className = 'copy-code-btn';
+    btn.textContent = 'Copy';
+    btn.setAttribute('aria-label', 'Copy code to clipboard');
+    btn.style.cssText = `
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      padding: 4px 8px;
+      font-size: 12px;
+      font-family: var(--font-mono);
+      background: var(--bg-tertiary);
+      color: var(--text-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      opacity: 0.8;
+      transition: all 0.15s ease;
+      z-index: 5;
+    `;
+
+    btn.addEventListener('click', async () => {
+      const code = pre.querySelector('code')?.innerText || pre.innerText;
+      await navigator.clipboard.writeText(code);
+      btn.textContent = 'Copied!';
+      btn.style.color = 'var(--accent-primary)';
+      setTimeout(() => {
+        btn.textContent = 'Copy';
+        btn.style.color = 'var(--text-secondary)';
+      }, 2000);
+    });
+
+    wrapper.appendChild(btn);
+  });
+</script>

@@ -1,0 +1,213 @@
+---
+import ThemeToggle from './ThemeToggle.astro';
+import LanguageSelector from './LanguageSelector.astro';
+import { SITE_CONFIG } from '../site.config';
+
+const pathname = Astro.url.pathname;
+const isCurrent = (path: string) => {
+  if (path === '/' && pathname === '/') return true;
+  if (path !== '/' && pathname.startsWith(path)) return true;
+  return false;
+};
+---
+
+<header class="glass-nav">
+  <div class="container nav-container">
+    <a href="/" class="logo-group">
+      <div class="logo-avatar">
+        <span>⚡</span>
+      </div>
+      <div class="logo-text">
+        <span class="logo-name">{SITE_CONFIG.name}</span>
+        <span class="logo-dot">.</span>
+      </div>
+    </a>
+
+    <!-- Desktop Navigation -->
+    <nav class="desktop-nav">
+      <a href="/" class:list={['nav-link', { active: isCurrent('/') }]} data-i18n="nav.home">홈</a>
+      <a href="/projects" class:list={['nav-link', { active: isCurrent('/projects') }]} data-i18n="nav.projects">프로젝트</a>
+      <a href="/blog" class:list={['nav-link', { active: isCurrent('/blog') }]} data-i18n="nav.blog">블로그</a>
+      <a href="/about" class:list={['nav-link', { active: isCurrent('/about') }]} data-i18n="nav.about">소개</a>
+      <a href="/search" class:list={['nav-link search-link', { active: isCurrent('/search') }]} title="Search (Ctrl+K)">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21-4.3-4.3"></path>
+        </svg>
+        <span data-i18n="nav.search">검색</span>
+      </a>
+    </nav>
+
+    <!-- Controls -->
+    <div class="nav-controls">
+      <LanguageSelector />
+      <ThemeToggle />
+
+      <!-- Mobile Hamburger Button -->
+      <button id="mobile-menu-btn" class="mobile-toggle" aria-label="Toggle Navigation Menu">
+        <svg id="hamburger-icon" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="4" x2="20" y1="12" y2="12"></line>
+          <line x1="4" x2="20" y1="6" y2="6"></line>
+          <line x1="4" x2="20" y1="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Drawer Menu -->
+  <div id="mobile-menu" class="mobile-menu hidden">
+    <nav class="mobile-nav-links">
+      <a href="/" class:list={['mobile-nav-link', { active: isCurrent('/') }]} data-i18n="nav.home">홈</a>
+      <a href="/projects" class:list={['mobile-nav-link', { active: isCurrent('/projects') }]} data-i18n="nav.projects">프로젝트</a>
+      <a href="/blog" class:list={['mobile-nav-link', { active: isCurrent('/blog') }]} data-i18n="nav.blog">블로그</a>
+      <a href="/about" class:list={['mobile-nav-link', { active: isCurrent('/about') }]} data-i18n="nav.about">소개</a>
+      <a href="/search" class:list={['mobile-nav-link', { active: isCurrent('/search') }]} data-i18n="nav.search">검색</a>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .nav-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 68px;
+  }
+
+  .logo-group {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-weight: 800;
+    font-size: 1.15rem;
+    letter-spacing: -0.02em;
+  }
+
+  .logo-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-md);
+    background: var(--accent-gradient);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1rem;
+    box-shadow: 0 2px 10px var(--accent-glow);
+  }
+
+  .logo-name {
+    color: var(--text-primary);
+  }
+
+  .logo-dot {
+    color: var(--accent-primary);
+  }
+
+  .desktop-nav {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+  }
+
+  .nav-link {
+    font-size: 0.92rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    padding: 0.4rem 0.6rem;
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-fast);
+  }
+
+  .nav-link:hover {
+    color: var(--text-primary);
+    background-color: var(--bg-tertiary);
+  }
+
+  .nav-link.active {
+    color: var(--accent-primary);
+    font-weight: 600;
+  }
+
+  .search-link {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .nav-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .mobile-toggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: var(--radius-md);
+    background-color: var(--bg-tertiary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+  }
+
+  .mobile-menu {
+    border-top: 1px solid var(--border-color);
+    background-color: var(--bg-secondary);
+    padding: 1rem 1.5rem 1.5rem;
+  }
+
+  .mobile-menu.hidden {
+    display: none;
+  }
+
+  .mobile-nav-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .mobile-nav-link {
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 0.6rem 0.8rem;
+    border-radius: var(--radius-md);
+    color: var(--text-secondary);
+  }
+
+  .mobile-nav-link.active {
+    background-color: var(--badge-bg);
+    color: var(--accent-primary);
+    font-weight: 600;
+  }
+
+  @media (max-width: 768px) {
+    .desktop-nav {
+      display: none;
+    }
+    .mobile-toggle {
+      display: flex;
+    }
+  }
+</style>
+
+<script is:inline>
+  const mobileBtn = document.getElementById('mobile-menu-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+
+  if (mobileBtn && mobileMenu) {
+    mobileBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+  }
+
+  // Global Keyboard Shortcut: Ctrl+K or Cmd+K to jump to search
+  window.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+      e.preventDefault();
+      window.location.href = '/search';
+    }
+  });
+</script>
