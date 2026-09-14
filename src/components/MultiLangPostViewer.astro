@@ -8,7 +8,7 @@ import { LANGUAGES } from '../site.config';
       <span class="globe-anim">🌐</span>
       <span class="reader-title" data-i18n="post.translate_notice">언어별 실시간 번역 열람:</span>
     </div>
-    <span class="badge ai-badge">Instant Multi-Language</span>
+    <span class="badge ai-badge">Instant 6-Language Translation</span>
   </div>
 
   <div class="lang-pills">
@@ -44,6 +44,8 @@ import { LANGUAGES } from '../site.config';
     justify-content: space-between;
     align-items: center;
     margin-bottom: 0.85rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
   }
 
   .reader-icon-title {
@@ -135,40 +137,67 @@ import { LANGUAGES } from '../site.config';
     const statusEl = document.getElementById('translation-status');
     const statusMsg = statusEl?.querySelector('.status-msg');
 
-    let originalHtml = null;
-    const articleBody = document.querySelector('article .prose');
+    const articleBody = document.querySelector('article.prose');
+    const articleTitle = document.querySelector('.post-title');
+    const articleLead = document.querySelector('.post-lead');
 
-    if (articleBody) {
-      originalHtml = articleBody.innerHTML;
+    if (!articleBody) return;
+
+    // Cache original content
+    const originalElements = [];
+    const elementsToTranslate = articleBody.querySelectorAll('h1, h2, h3, h4, p, li, blockquote, th, td');
+    elementsToTranslate.forEach((el) => {
+      // Don't translate code blocks or their direct contents
+      if (!el.closest('pre') && !el.classList.contains('notranslate')) {
+        originalElements.push({
+          el,
+          originalText: el.innerText.trim(),
+        });
+      }
+    });
+
+    if (articleTitle) {
+      originalElements.push({ el: articleTitle, originalText: articleTitle.innerText.trim() });
+    }
+    if (articleLead) {
+      originalElements.push({ el: articleLead, originalText: articleLead.innerText.trim() });
     }
 
-    // Google Translate Element initialization
-    let googleTranslateInitialized = false;
+    // Translation cache in sessionStorage
+    const cache = {};
 
-    function initGoogleTranslate() {
-      if (googleTranslateInitialized) return;
+    async function translateText(text, targetLang) {
+      if (!text || targetLang === 'ko') return text;
       
-      const div = document.createElement('div');
-      div.id = 'google_translate_element';
-      div.style.display = 'none';
-      document.body.appendChild(div);
-
-      const script = document.createElement('script');
-      script.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
-      script.async = true;
-      document.body.appendChild(script);
-
-      window.googleTranslateElementInit = function() {
-        new window.google.translate.TranslateElement({
-          pageLanguage: 'ko',
-          includedLanguages: 'ko,en,zh-CN,ja,pl,de',
-          autoDisplay: false
-        }, 'google_translate_element');
-        googleTranslateInitialized = true;
+      const langPairMap = {
+        'en': 'ko|en',
+        'zh': 'ko|zh',
+        'ja': 'ko|ja',
+        'pl': 'ko|pl',
+        'de-CH': 'ko|de', // Swiss German falls back to German
       };
+
+      const pair = langPairMap[targetLang] || 'ko|en';
+      const cacheKey = `${pair}::${text}`;
+      if (cache[cacheKey]) return cache[cacheKey];
+
+      try {
+        const res = await fetch(
+          `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${pair}`
+        );
+        const data = await res.json();
+        if (data && data.responseData && data.responseData.translatedText) {
+          const trans = data.responseData.translatedText;
+          cache[cacheKey] = trans;
+          return trans;
+        }
+      } catch (e) {
+        console.warn('Translation API fallback:', e);
+      }
+      return text;
     }
 
-    function triggerTranslation(targetLang) {
+    async function applyArticleTranslation(targetLang) {
       pills.forEach((p) => {
         if (p.getAttribute('data-target-lang') === targetLang) {
           p.classList.add('active');
@@ -177,57 +206,51 @@ import { LANGUAGES } from '../site.config';
         }
       });
 
-      // Map to google translate code
-      const gCodeMap = {
-        'ko': 'ko',
-        'en': 'en',
-        'zh': 'zh-CN',
-        'ja': 'ja',
-        'pl': 'pl',
-        'de-CH': 'de', // Swiss German falls back to German (de) with Swiss context
-      };
-
-      const gCode = gCodeMap[targetLang] || 'ko';
-
       if (targetLang === 'ko') {
-        // Reset translation
-        const select = document.querySelector('.goog-te-combo');
-        if (select) {
-          select.value = 'ko';
-          select.dispatchEvent(new Event('change'));
-        }
+        // Restore originals
+        originalElements.forEach((item) => {
+          item.el.innerText = item.originalText;
+        });
         if (statusEl) statusEl.classList.add('hidden');
         return;
       }
 
-      initGoogleTranslate();
-
       if (statusEl && statusMsg) {
         statusEl.classList.remove('hidden');
-        statusMsg.textContent = `Translating to ${targetLang.toUpperCase()}...`;
+        statusMsg.textContent = `Translating article into ${targetLang.toUpperCase()} (Code blocks & equations protected)...`;
       }
 
-      // Trigger translate combo
-      const checkInterval = setInterval(() => {
-        const select = document.querySelector('.goog-te-combo');
-        if (select) {
-          select.value = gCode;
-          select.dispatchEvent(new Event('change'));
-          clearInterval(checkInterval);
-          if (statusEl && statusMsg) {
-            statusMsg.textContent = `Displaying in ${targetLang.toUpperCase()} (Code blocks & math preserved)`;
-          }
-        }
-      }, 300);
+      const langNames = {
+        'en': 'English',
+        'zh': '中文 (Chinese)',
+        'ja': '日本語 (Japanese)',
+        'pl': 'Polski (Polish)',
+        'de-CH': 'Schweizerdeutsch / Deutsch (CH)',
+      };
 
-      setTimeout(() => clearInterval(checkInterval), 5000);
+      // Batch translate in parallel chunks
+      const promises = originalElements.map(async (item) => {
+        if (!item.originalText) return;
+        const translated = await translateText(item.originalText, targetLang);
+        if (translated) {
+          item.el.innerText = translated;
+        }
+      });
+
+      await Promise.allSettled(promises);
+
+      if (statusEl && statusMsg) {
+        statusMsg.textContent = `✓ Displaying in ${langNames[targetLang] || targetLang.toUpperCase()}`;
+      }
     }
 
     pills.forEach((pill) => {
       pill.addEventListener('click', () => {
         const target = pill.getAttribute('data-target-lang');
         if (target) {
-          triggerTranslation(target);
+          localStorage.setItem('site_lang', target);
+          window.dispatchEvent(new CustomEvent('site-language-changed', { detail: { lang: target } }));
+          applyArticleTranslation(target);
         }
       });
     });
@@ -235,16 +258,14 @@ import { LANGUAGES } from '../site.config';
     // Listen to global site-language changes
     window.addEventListener('site-language-changed', (e) => {
       if (e.detail && e.detail.lang) {
-        triggerTranslation(e.detail.lang);
+        applyArticleTranslation(e.detail.lang);
       }
     });
 
-    // Initial state
+    // Initial check
     const currentLang = localStorage.getItem('site_lang') || 'ko';
-    pills.forEach((p) => {
-      if (p.getAttribute('data-target-lang') === currentLang) {
-        p.classList.add('active');
-      }
-    });
+    if (currentLang !== 'ko') {
+      applyArticleTranslation(currentLang);
+    }
   })();
 </script>

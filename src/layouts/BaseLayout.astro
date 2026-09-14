@@ -18,7 +18,7 @@ const {
   article = false,
 } = Astro.props;
 
-const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://example.github.io');
+const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://esp-vt.github.io');
 const fullTitle = title === SITE_CONFIG.title ? title : `${title} | ${SITE_CONFIG.name}`;
 ---
 
@@ -80,26 +80,33 @@ const fullTitle = title === SITE_CONFIG.title ? title : `${title} | ${SITE_CONFI
         const dict = window.SITE_I18N[lang] || window.SITE_I18N[window.DEFAULT_LANG];
         if (!dict) return;
 
+        // Replace all elements with data-i18n attribute
         document.querySelectorAll('[data-i18n]').forEach((el) => {
           const key = el.getAttribute('data-i18n');
           if (key && dict[key]) {
-            el.textContent = dict[key];
+            el.innerText = dict[key];
           }
         });
 
+        // Replace placeholders
         document.querySelectorAll('[data-i18n-placeholder]').forEach((el) => {
           const key = el.getAttribute('data-i18n-placeholder');
           if (key && dict[key]) {
             el.setAttribute('placeholder', dict[key]);
           }
         });
+
+        // Update document title if applicable
+        if (dict['nav.home'] && window.location.pathname === '/') {
+          document.title = `Eunseong Park | ${dict['hero.role'] || 'Virginia Tech'}`;
+        }
       }
 
-      // Initial apply
+      // Initial apply on page load
       const currentLang = localStorage.getItem('site_lang') || window.DEFAULT_LANG;
       applyTranslations(currentLang);
 
-      // Listen for language changes from LanguageSelector
+      // Listen for language changes from LanguageSelector across the entire site
       window.addEventListener('site-language-changed', (e) => {
         if (e.detail && e.detail.lang) {
           applyTranslations(e.detail.lang);

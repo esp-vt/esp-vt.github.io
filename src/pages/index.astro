@@ -17,9 +17,9 @@ const featuredProjects = allProjects
   .sort((a, b) => a.data.order - b.data.order);
 
 const techStacks = [
-  { category: 'Confidential Hardware & TEE', skills: ['AMD SEV-SNP', 'Intel TDX', 'Intel SGX', 'NVIDIA H100 CC', 'PCIe SPDM/IDE', 'Remote Attestation'] },
-  { category: 'Trustworthy AI & LLM', skills: ['PyTorch', 'HuggingFace', 'LoRA / PEFT', 'CUDA', 'Data Lineage', 'VFS Interception'] },
-  { category: 'Systems & Cloud Security', skills: ['Linux Kernel', 'Linux IMA', 'dm-verity', 'C/C++', 'Rust', 'Python', 'Docker', 'Kubernetes'] },
+  { key: 'stack.tee', category: '기밀 하드웨어 & TEE', skills: ['AMD SEV-SNP', 'Intel TDX', 'Intel SGX', 'NVIDIA H100 CC', 'PCIe SPDM/IDE', 'Remote Attestation'] },
+  { key: 'stack.ai', category: '신뢰 가능한 AI & LLM', skills: ['PyTorch', 'HuggingFace', 'LoRA / PEFT', 'CUDA', 'Data Lineage', 'VFS Interception'] },
+  { key: 'stack.systems', category: '시스템 & 클라우드 보안', skills: ['Linux Kernel', 'Linux IMA', 'dm-verity', 'C/C++', 'Rust', 'Python', 'Docker', 'Kubernetes'] },
 ];
 ---
 
@@ -40,7 +40,7 @@ const techStacks = [
           <span class="gradient-text">{SITE_CONFIG.name}</span> <span class="korean-name">({SITE_CONFIG.koreanName})</span>입니다.
         </h1>
 
-        <p class="hero-role">{SITE_CONFIG.role}</p>
+        <p class="hero-role" data-i18n="hero.role">Virginia Tech 컴퓨터공학 / ECE 대학원 연구원 (Ph.D. Student)</p>
         <p class="hero-desc" data-i18n="hero.desc">{SITE_CONFIG.description}</p>
 
         <div class="hero-actions">
@@ -116,14 +116,14 @@ const techStacks = [
       <div class="section-header text-center">
         <div>
           <h2 class="section-title" data-i18n="section.tech_stack">연구 & 엔지니어링 기술 스택</h2>
-          <p class="section-subtitle">시스템 보안 및 신뢰 가능한 AI 연구에 활용하는 핵심 기술입니다.</p>
+          <p class="section-subtitle" data-i18n="section.tech_stack_desc">시스템 보안 및 신뢰 가능한 AI 연구에 활용하는 핵심 기술입니다.</p>
         </div>
       </div>
 
       <div class="grid grid-3">
         {techStacks.map((group) => (
           <div class="card stack-card">
-            <h3 class="stack-category">{group.category}</h3>
+            <h3 class="stack-category" data-i18n={group.key}>{group.category}</h3>
             <div class="stack-tags">
               {group.skills.map((skill) => (
                 <span class="tech-pill">{skill}</span>
@@ -168,7 +168,7 @@ const techStacks = [
       <div class="section-header">
         <div>
           <h2 class="section-title" data-i18n="section.timeline">학력 & 연구 이력</h2>
-          <p class="section-subtitle">Virginia Tech 및 학술/엔지니어링 여정입니다.</p>
+          <p class="section-subtitle" data-i18n="section.timeline_desc">Virginia Tech 및 학술/엔지니어링 여정입니다.</p>
         </div>
       </div>
 

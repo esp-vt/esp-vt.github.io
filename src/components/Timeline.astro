@@ -1,8 +1,11 @@
 ---
 interface TimelineItem {
   period: string;
+  titleKey: string;
   title: string;
+  orgKey: string;
   organization: string;
+  descKey: string;
   description: string;
   tags?: string[];
   type?: 'research' | 'education' | 'work';
@@ -11,17 +14,23 @@ interface TimelineItem {
 const timelineData: TimelineItem[] = [
   {
     period: '2024 - Present',
-    title: 'Ph.D. Student & Graduate Researcher',
+    titleKey: 'timeline.phd_title',
+    title: 'Ph.D. 과정 & 대학원 연구원',
+    orgKey: 'timeline.phd_org',
     organization: 'Virginia Tech (CS / ECE)',
-    description: 'Conducting research on hardware-anchored confidential machine learning (ConfML-Trust), non-bypassable data provenance measurement, AMD SEV-SNP / Intel TDX, and NVIDIA Hopper H100 CC integration for secure LLM fine-tuning.',
+    descKey: 'timeline.phd_desc',
+    description: '하드웨어 앵커 기반 기밀 머신러닝(ConfML-Trust), 비우회적 데이터 프로비넌스 측정, AMD SEV-SNP / Intel TDX 및 NVIDIA Hopper H100 CC 연동 보안 LLM 파인튜닝 연구 수행.',
     tags: ['TEE', 'AMD SEV-SNP', 'Intel TDX', 'Hopper H100 CC', 'Confidential ML', 'Data Provenance', 'PyTorch'],
     type: 'research',
   },
   {
     period: '2018 - 2022',
-    title: 'B.S. in Computer Science & Engineering',
-    organization: 'Undergraduate Program',
-    description: 'Solid foundation in Operating Systems, Computer Architecture, Cryptography, Distributed Systems, Network Security, and Deep Learning algorithms.',
+    titleKey: 'timeline.bs_title',
+    title: '컴퓨터공학 학사 (B.S.)',
+    orgKey: 'timeline.bs_org',
+    organization: '컴퓨터공학과 학부 과정',
+    descKey: 'timeline.bs_desc',
+    description: '운영체제(OS), 컴퓨터 구조, 암호학, 분산 시스템, 네트워크 보안 및 딥러닝 알고리즘 이수.',
     tags: ['Systems', 'OS', 'Algorithms', 'C/C++', 'Python', 'Security'],
     type: 'education',
   },
@@ -41,9 +50,9 @@ const timelineData: TimelineItem[] = [
           <span class="period-badge">{item.period}</span>
           <span class="type-badge">{item.type}</span>
         </div>
-        <h4 class="item-title">{item.title}</h4>
-        <div class="item-org">{item.organization}</div>
-        <p class="item-desc">{item.description}</p>
+        <h4 class="item-title" data-i18n={item.titleKey}>{item.title}</h4>
+        <div class="item-org" data-i18n={item.orgKey}>{item.organization}</div>
+        <p class="item-desc" data-i18n={item.descKey}>{item.description}</p>
         {item.tags && (
           <div class="item-tags">
             {item.tags.map((tag) => (

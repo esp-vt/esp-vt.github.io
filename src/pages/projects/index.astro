@@ -6,15 +6,21 @@ import { getCollection } from 'astro:content';
 const projects = await getCollection('projects');
 const sortedProjects = projects.sort((a, b) => a.data.order - b.data.order);
 
-const categories = ['All', 'Research', 'AI & ML', 'Security', 'Fullstack'];
+const categories = [
+  { filter: 'All', key: 'projects.filter_all', label: '전체' },
+  { filter: 'Research', key: 'projects.filter_research', label: 'Research' },
+  { filter: 'AI & ML', key: 'projects.filter_ai', label: 'AI & ML' },
+  { filter: 'Security', key: 'projects.filter_security', label: 'Security' },
+  { filter: 'Fullstack', key: 'projects.filter_fullstack', label: 'Fullstack' },
+];
 ---
 
-<BaseLayout title="Projects | Eun" description="Showcase of AI, systems security, and web projects.">
+<BaseLayout title="Research & Projects | Eunseong Park" description="Showcase of AI, systems security, and hardware TEE research projects.">
   <div class="container page-container">
     <header class="page-header">
-      <h1 class="page-title" data-i18n="section.all_projects">전체 프로젝트</h1>
-      <p class="page-desc">
-        신뢰 컴퓨팅(TEE), 머신러닝 보안, 데이터 프로비넌스 및 풀스택 웹 애플리케이션 프로젝트입니다.
+      <h1 class="page-title" data-i18n="projects.page_title">전체 연구 & 프로젝트</h1>
+      <p class="page-desc" data-i18n="projects.page_desc">
+        신뢰 실행 환경(TEE), 머신러닝 보안, 데이터 프로비넌스 및 시스템 프로젝트입니다.
       </p>
 
       <!-- Category Filter Tabs -->
@@ -22,10 +28,11 @@ const categories = ['All', 'Research', 'AI & ML', 'Security', 'Fullstack'];
         {categories.map((cat, idx) => (
           <button
             class:list={['filter-btn', { active: idx === 0 }]}
-            data-filter={cat}
+            data-filter={cat.filter}
+            data-i18n={cat.key}
             type="button"
           >
-            {cat === 'All' ? <span data-i18n="projects.filter_all">전체</span> : cat}
+            {cat.label}
           </button>
         ))}
       </div>

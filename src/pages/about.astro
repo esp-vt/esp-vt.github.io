@@ -23,7 +23,7 @@ const publications = [
       </div>
       <div class="profile-meta">
         <h1 class="profile-name">{SITE_CONFIG.name} <span class="korean-sub">({SITE_CONFIG.koreanName})</span></h1>
-        <p class="profile-title">{SITE_CONFIG.role}</p>
+        <p class="profile-title" data-i18n="hero.role">{SITE_CONFIG.role}</p>
         <p class="profile-affil">{SITE_CONFIG.affiliation}</p>
         
         <div class="contact-badges">
@@ -35,19 +35,19 @@ const publications = [
           <a href={SITE_CONFIG.social.github} target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">GitHub</a>
           <a href={SITE_CONFIG.social.linkedin} target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">LinkedIn</a>
           <a href={SITE_CONFIG.social.scholar} target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">Google Scholar</a>
-          <a href={`mailto:${SITE_CONFIG.email}`} class="btn btn-primary btn-sm">Email Me</a>
+          <a href={`mailto:${SITE_CONFIG.email}`} class="btn btn-primary btn-sm" data-i18n="hero.contact">Email Me</a>
         </div>
       </div>
     </header>
 
     <div class="about-section card">
-      <h2 class="section-title">Introduction / 소개</h2>
-      <p class="bio-text">
+      <h2 class="section-title" data-i18n="about.intro_title">Introduction / 소개</h2>
+      <p class="bio-text" data-i18n="about.bio_p1">
         안녕하세요! <strong>Virginia Tech</strong>에서 신뢰 실행 환경(Trusted Execution Environments, TEE),
         기밀 컴퓨팅(Confidential Computing), 데이터 프로비넌스(Verifiable Data Provenance) 및
         안전한 거대 언어 모델(Trustworthy LLMs) 시스템을 연구하고 있는 대학원 연구원 <strong>박은성 (Eunseong Park)</strong>입니다.
       </p>
-      <p class="bio-text">
+      <p class="bio-text" data-i18n="about.bio_p2">
         AMD SEV-SNP, Intel TDX, NVIDIA Hopper H100 CC 등 최신 기밀 하드웨어를 활용하여,
         비신뢰 클라우드 환경에서도 머신러닝 파이프라인의 데이터 수집부터 모델 가중치 훈련 전 과정의
         기밀성(Confidentiality)과 변조 불가능한 이력(Lineage) 무결성을 하드웨어적으로 보증하는 시스템 아키텍처(ConfML-Trust)를 설계하고 있습니다.
@@ -55,34 +55,34 @@ const publications = [
     </div>
 
     <div class="about-section card">
-      <h2 class="section-title">Research Interests / 주요 연구 분야</h2>
+      <h2 class="section-title" data-i18n="about.interests_title">Research Interests / 주요 연구 분야</h2>
       <div class="interests-grid">
         <div class="interest-item">
           <div class="interest-icon">🛡️</div>
-          <h4>Confidential Computing & TEE</h4>
-          <p>AMD SEV-SNP, Intel TDX, Intel SGX, ARM CCA 기반 하드웨어 격리 메모리 및 원격 증명(Remote Attestation)</p>
+          <h4 data-i18n="about.interest_tee_title">Confidential Computing & TEE</h4>
+          <p data-i18n="about.interest_tee_desc">AMD SEV-SNP, Intel TDX, Intel SGX, ARM CCA 기반 하드웨어 격리 메모리 및 원격 증명(Remote Attestation)</p>
         </div>
         <div class="interest-item">
           <div class="interest-icon">🤖</div>
-          <h4>Trustworthy & Confidential LLMs</h4>
-          <p>비신뢰 LLM 엔지니어링 에이전트 격리, 기밀 LoRA/PEFT 파인튜닝 및 악의적 데이터 오염 방지</p>
+          <h4 data-i18n="about.interest_llm_title">Trustworthy & Confidential LLMs</h4>
+          <p data-i18n="about.interest_llm_desc">비신뢰 LLM 엔지니어링 에이전트 격리, 기밀 LoRA/PEFT 파인튜닝 및 악의적 데이터 오염 방지</p>
         </div>
         <div class="interest-item">
           <div class="interest-icon">🔗</div>
-          <h4>Verifiable Data Provenance</h4>
-          <p>VFS 계층 비우회적 프로비넌스 Shim, Merkle Tree 해시 체이닝 및 하드웨어 서명 Quote 기반 무결성 감사</p>
+          <h4 data-i18n="about.interest_prov_title">Verifiable Data Provenance</h4>
+          <p data-i18n="about.interest_prov_desc">VFS 계층 비우회적 프로비넌스 Shim, Merkle Tree 해시 체이닝 및 하드웨어 서명 Quote 기반 무결성 감사</p>
         </div>
         <div class="interest-item">
           <div class="interest-icon">⚡</div>
-          <h4>Systems Security & Cloud Infrastructure</h4>
-          <p>Linux IMA / dm-verity 커널 무결성, PCIe SPDM/IDE 버스 암호화, 고성능 분산 파이프라인 엔지니어링</p>
+          <h4 data-i18n="about.interest_sec_title">Systems Security & Cloud Infrastructure</h4>
+          <p data-i18n="about.interest_sec_desc">Linux IMA / dm-verity 커널 무결성, PCIe SPDM/IDE 버스 암호화, 고성능 분산 파이프라인 엔지니어링</p>
         </div>
       </div>
     </div>
 
     <!-- Publications -->
     <div class="about-section card">
-      <h2 class="section-title">Publications & Research / 주요 논문</h2>
+      <h2 class="section-title" data-i18n="about.pub_section_title">Publications & Research / 주요 논문</h2>
       <div class="publications-list">
         {publications.map((pub) => (
           <div class="pub-card">
@@ -91,7 +91,7 @@ const publications = [
             <div class="pub-venue">
               <span>{pub.venue} ({pub.year})</span>
               <div class="pub-actions">
-                <a href={pub.paperLink} class="badge">📄 Paper / Preprint</a>
+                <a href={pub.paperLink} class="badge" data-i18n="projects.paper">📄 Paper / Preprint</a>
                 <a href={pub.codeLink} target="_blank" rel="noopener noreferrer" class="badge">💻 GitHub</a>
               </div>
             </div>
@@ -102,7 +102,7 @@ const publications = [
 
     <!-- Experience Timeline -->
     <div class="about-section card">
-      <h2 class="section-title">Education & Timeline / 학력 및 이력</h2>
+      <h2 class="section-title" data-i18n="section.timeline">Education & Timeline / 학력 및 이력</h2>
       <Timeline />
     </div>
   </div>
