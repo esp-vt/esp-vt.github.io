@@ -9,7 +9,7 @@ import { SITE_CONFIG } from '../site.config';
 const allPosts = await getCollection('blog');
 const recentPosts = allPosts
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-  .slice(0, 3);
+  .slice(0, 4);
 
 const allProjects = await getCollection('projects');
 const featuredProjects = allProjects
@@ -17,6 +17,7 @@ const featuredProjects = allProjects
   .sort((a, b) => a.data.order - b.data.order);
 
 const techStacks = [
+  { key: 'stack.bci', category: '뇌파 BCI & 생체 신경 신호처리', skills: ['8-ch EEG', 'Biomimetic RAS', 'Mu/Beta ERD', 'EEG Conformer', 'FAA Valence/Arousal', 'MNE / SciPy'] },
   { key: 'stack.tee', category: '기밀 하드웨어 & TEE', skills: ['AMD SEV-SNP', 'Intel TDX', 'Intel SGX', 'NVIDIA H100 CC', 'PCIe SPDM/IDE', 'Remote Attestation'] },
   { key: 'stack.ai', category: '신뢰 가능한 AI & LLM', skills: ['PyTorch', 'HuggingFace', 'LoRA / PEFT', 'CUDA', 'Data Lineage', 'VFS Interception'] },
   { key: 'stack.systems', category: '시스템 & 클라우드 보안', skills: ['Linux Kernel', 'Linux IMA', 'dm-verity', 'C/C++', 'Rust', 'Python', 'Docker', 'Kubernetes'] },
@@ -69,8 +70,8 @@ const techStacks = [
                 <p><span class="tok-kw">const</span> <span class="tok-var">researcher</span> = {'{'}</p>
                 <p>&nbsp;&nbsp;name: <span class="tok-str">"{SITE_CONFIG.name}"</span>,</p>
                 <p>&nbsp;&nbsp;affiliation: <span class="tok-str">"Virginia Tech"</span>,</p>
-                <p>&nbsp;&nbsp;focus: [<span class="tok-str">"TEE Security"</span>, <span class="tok-str">"Confidential ML"</span>, <span class="tok-str">"Data Lineage"</span>],</p>
-                <p>&nbsp;&nbsp;flagship: <span class="tok-str">"ConfML-Trust 🛡️"</span>,</p>
+                <p>&nbsp;&nbsp;focus: [<span class="tok-str">"Neural BCI (RAS)"</span>, <span class="tok-str">"Confidential ML"</span>, <span class="tok-str">"Data Lineage"</span>],</p>
+                <p>&nbsp;&nbsp;flagships: [<span class="tok-str">"Telepathy 🧠"</span>, <span class="tok-str">"ConfML-Trust 🛡️"</span>],</p>
                 <p>&nbsp;&nbsp;contact: <span class="tok-str">"{SITE_CONFIG.email}"</span></p>
                 <p>{'}'};</p>
               </div>
@@ -88,13 +89,13 @@ const techStacks = [
         <div>
           <h2 class="section-title" data-i18n="section.featured_projects">대표 연구 및 프로젝트</h2>
           <p class="section-subtitle" data-i18n="section.featured_projects_desc">
-            Virginia Tech에서 진행 중인 TEE 기반 기밀 머신러닝 및 데이터 프로비넌스 핵심 연구입니다.
+            Virginia Tech에서 진행 중인 뇌파 기반 신경 텔레파시 BCI, TEE 기밀 머신러닝 및 데이터 프로비넌스 핵심 연구입니다.
           </p>
         </div>
         <a href="/projects" class="section-more-link" data-i18n="section.all_projects">전체 연구 보기 →</a>
       </div>
 
-      <div class="grid grid-3">
+      <div class="grid grid-2">
         {featuredProjects.map((project) => (
           <ProjectCard
             title={project.data.title}
@@ -116,11 +117,11 @@ const techStacks = [
       <div class="section-header text-center">
         <div>
           <h2 class="section-title" data-i18n="section.tech_stack">연구 & 엔지니어링 기술 스택</h2>
-          <p class="section-subtitle" data-i18n="section.tech_stack_desc">시스템 보안 및 신뢰 가능한 AI 연구에 활용하는 핵심 기술입니다.</p>
+          <p class="section-subtitle" data-i18n="section.tech_stack_desc">생체 신경 신호처리, 시스템 보안 및 신뢰 가능한 AI 연구에 활용하는 핵심 기술입니다.</p>
         </div>
       </div>
 
-      <div class="grid grid-3">
+      <div class="grid grid-2">
         {techStacks.map((group) => (
           <div class="card stack-card">
             <h3 class="stack-category" data-i18n={group.key}>{group.category}</h3>
@@ -142,13 +143,13 @@ const techStacks = [
         <div>
           <h2 class="section-title" data-i18n="section.recent_posts">최신 기술 포스팅</h2>
           <p class="section-subtitle" data-i18n="section.recent_posts_desc">
-            기밀 컴퓨팅, TEE 아키텍처, 데이터 무결성 및 LLM 보안에 관한 인사이트를 공유합니다.
+            생체모방 RAS 게이팅, 기밀 컴퓨팅, TEE 아키텍처, 데이터 무결성 및 BCI 보안에 관한 인사이트를 공유합니다.
           </p>
         </div>
         <a href="/blog" class="section-more-link" data-i18n="section.all_posts">전체 글 보기 →</a>
       </div>
 
-      <div class="grid grid-3">
+      <div class="grid grid-2">
         {recentPosts.map((post) => (
           <BlogPostCard
             title={post.data.title}
@@ -358,8 +359,8 @@ const techStacks = [
     gap: 1.5rem;
   }
 
-  .grid-3 {
-    grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  .grid-2 {
+    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
   }
 
   .stack-card {
@@ -403,6 +404,9 @@ const techStacks = [
     }
     .hero-title {
       font-size: 2.2rem;
+    }
+    .grid-2 {
+      grid-template-columns: 1fr;
     }
   }
 </style>

@@ -5,6 +5,14 @@ import { SITE_CONFIG } from '../site.config';
 
 const publications = [
   {
+    title: 'Telepathy: Pure Concept & Affective Cross-Lingual Neural BCI via Biomimetic RAS Bio-Signal Gating',
+    authors: 'Eunseong Park',
+    venue: 'Neural BCI & Cognitive Neuro-AI Research / Open Source',
+    year: '2026',
+    paperLink: '#',
+    codeLink: 'https://github.com/esp-vt/telepathy',
+  },
+  {
     title: 'ConfML-Trust: Hardware-Anchored Confidential Machine Learning with Verifiable Data & Model Lineage',
     authors: 'Eunseong Park, et al.',
     venue: 'Virginia Tech Systems & Security Research / Preprint',
@@ -15,11 +23,11 @@ const publications = [
 ];
 ---
 
-<BaseLayout title={`About | ${SITE_CONFIG.name}`} description="About Eunseong Park - AI Systems & Security Researcher at Virginia Tech">
+<BaseLayout title={`About | ${SITE_CONFIG.name}`} description="About Eunseong Park - AI Systems, Neural BCI & Security Researcher at Virginia Tech">
   <div class="container about-container">
     <header class="about-header">
       <div class="profile-avatar">
-        <span>👨‍💻</span>
+        <span>🧠</span>
       </div>
       <div class="profile-meta">
         <h1 class="profile-name">{SITE_CONFIG.name} <span class="korean-sub">({SITE_CONFIG.koreanName})</span></h1>
@@ -43,20 +51,24 @@ const publications = [
     <div class="about-section card">
       <h2 class="section-title" data-i18n="about.intro_title">Introduction / 소개</h2>
       <p class="bio-text" data-i18n="about.bio_p1">
-        안녕하세요! <strong>Virginia Tech</strong>에서 신뢰 실행 환경(Trusted Execution Environments, TEE),
-        기밀 컴퓨팅(Confidential Computing), 데이터 프로비넌스(Verifiable Data Provenance) 및
+        안녕하세요! <strong>Virginia Tech</strong>에서 생체모방 망상활성계(RAS) 기반 뇌파 BCI(Brain-Computer Interface),
+        신뢰 실행 환경(TEE), 기밀 컴퓨팅(Confidential Computing), 데이터 프로비넌스(Verifiable Data Provenance) 및
         안전한 거대 언어 모델(Trustworthy LLMs) 시스템을 연구하고 있는 대학원 연구원 <strong>박은성 (Eunseong Park)</strong>입니다.
       </p>
       <p class="bio-text" data-i18n="about.bio_p2">
-        AMD SEV-SNP, Intel TDX, NVIDIA Hopper H100 CC 등 최신 기밀 하드웨어를 활용하여,
-        비신뢰 클라우드 환경에서도 머신러닝 파이프라인의 데이터 수집부터 모델 가중치 훈련 전 과정의
-        기밀성(Confidentiality)과 변조 불가능한 이력(Lineage) 무결성을 하드웨어적으로 보증하는 시스템 아키텍처(ConfML-Trust)를 설계하고 있습니다.
+        비침습 8채널 EEG 기반의 언어 불변적 개념·감정 해독 텔레파시 엔진(Telepathy: 연산량 99.7% 절감, 지연시간 2.72ms)과
+        AMD SEV-SNP / NVIDIA Hopper H100 CC 기반의 하드웨어 무결성 검증 아키텍처(ConfML-Trust)를 설계하고 있습니다.
       </p>
     </div>
 
     <div class="about-section card">
       <h2 class="section-title" data-i18n="about.interests_title">Research Interests / 주요 연구 분야</h2>
       <div class="interests-grid">
+        <div class="interest-item">
+          <div class="interest-icon">🧠</div>
+          <h4 data-i18n="about.interest_bci_title">Neural BCI & Biomimetic RAS</h4>
+          <p data-i18n="about.interest_bci_desc">생체모방 망상활성계(RAS) 게이팅(99.7% 연산 절감), 속발음(Inner Speech) 개념 해독 및 초저지연(2.72ms) 크로스-링구얼 신경 텔레파시</p>
+        </div>
         <div class="interest-item">
           <div class="interest-icon">🛡️</div>
           <h4 data-i18n="about.interest_tee_title">Confidential Computing & TEE</h4>
@@ -72,17 +84,12 @@ const publications = [
           <h4 data-i18n="about.interest_prov_title">Verifiable Data Provenance</h4>
           <p data-i18n="about.interest_prov_desc">VFS 계층 비우회적 프로비넌스 Shim, Merkle Tree 해시 체이닝 및 하드웨어 서명 Quote 기반 무결성 감사</p>
         </div>
-        <div class="interest-item">
-          <div class="interest-icon">⚡</div>
-          <h4 data-i18n="about.interest_sec_title">Systems Security & Cloud Infrastructure</h4>
-          <p data-i18n="about.interest_sec_desc">Linux IMA / dm-verity 커널 무결성, PCIe SPDM/IDE 버스 암호화, 고성능 분산 파이프라인 엔지니어링</p>
-        </div>
       </div>
     </div>
 
     <!-- Publications -->
     <div class="about-section card">
-      <h2 class="section-title" data-i18n="about.pub_section_title">Publications & Research / 주요 논문</h2>
+      <h2 class="section-title" data-i18n="about.pub_section_title">Publications & Research / 주요 논문 및 프로젝트</h2>
       <div class="publications-list">
         {publications.map((pub) => (
           <div class="pub-card">
