@@ -104,7 +104,7 @@ export const UI_TRANSLATIONS: Record<SupportedLanguage, Record<string, string>> 
     'experience.maop_org': 'Virginia Tech MAOP & ECE Department',
     'experience.maop_period': 'Summer 2026',
     'experience.maop_desc': 'Virginia Tech MAOP(Multicultural Academic Opportunities Program) 여름 학부 연구 멘토로 활동하며, 학부생에게 하드웨어 신뢰 실행 환경(TEE) 서버 인프라 구축, AMD SEV-SNP 가상화 격리 및 서버 관리 전반을 지도 및 전수.',
-    'experience.maop_caption': 'Virginia Tech ECE에서 MAOP 멘티 학부생 및 동료 멘토와 함께 (Summer 2026)',
+    'experience.maop_caption': 'Virginia Tech ECE에서 MAOP 멘티 학부생 및 지도교수님과 함께 (Summer 2026)',
 
     // Timeline
     'timeline.phd_title': 'Ph.D. 과정 & 대학원 연구원',
@@ -207,7 +207,7 @@ export const UI_TRANSLATIONS: Record<SupportedLanguage, Record<string, string>> 
     'experience.maop_org': 'Virginia Tech MAOP & ECE Department',
     'experience.maop_period': 'Summer 2026',
     'experience.maop_desc': 'Served as an undergraduate research mentor in the Virginia Tech MAOP (Multicultural Academic Opportunities Program) during Summer 2026, mentoring and instructing students in TEE (Trusted Execution Environment) server management, AMD SEV-SNP hardware isolation, and cloud security infrastructure.',
-    'experience.maop_caption': 'Mentoring session at Virginia Tech ECE with MAOP undergraduate mentee and fellow mentors (Summer 2026)',
+    'experience.maop_caption': 'Mentoring session at Virginia Tech ECE with MAOP undergraduate mentee and faculty advisor (Summer 2026)',
 
     // Timeline
     'timeline.phd_title': 'Ph.D. Student & Graduate Researcher',
@@ -298,7 +298,7 @@ export const UI_TRANSLATIONS: Record<SupportedLanguage, Record<string, string>> 
     'experience.maop_org': '弗吉尼亚理工大学 MAOP & ECE 系',
     'experience.maop_period': '2026年夏季',
     'experience.maop_desc': '2026年夏季担任弗吉尼亚理工大学 MAOP 科研导师，全面指导本科生进行机密计算 TEE 服务器基础设施搭建、AMD SEV-SNP 硬件隔离与服务器管理。',
-    'experience.maop_caption': '在弗吉尼亚理工大学 ECE 与 MAOP 学员及导师合影 (2026 夏季)',
+    'experience.maop_caption': '在弗吉尼亚理工大学 ECE 与 MAOP 学员及指导教授合影 (2026 夏季)',
     'timeline.phd_title': '博士研究生 & 大学院研究员',
     'timeline.phd_org': '弗吉尼亚理工大学 (CS / ECE)',
     'timeline.phd_desc': '开展生体仿生RAS多语言脑机接口与机密GPU环境下大模型服务性能分析研究。',
@@ -379,7 +379,7 @@ export const UI_TRANSLATIONS: Record<SupportedLanguage, Record<string, string>> 
     'experience.maop_org': 'バージニア工科大学 MAOP & ECE 学科',
     'experience.maop_period': '2026年 夏季',
     'experience.maop_desc': '2026年夏季、バージニア工科大学 MAOP プログラムの研究メンターとして、学部生に対しTEE（信頼実行環境）サーバー管理全般、AMD SEV-SNP ハードウェア隔離およびインフラ運用を指導。',
-    'experience.maop_caption': 'バージニア工科大学 ECE にて MAOP メンティーおよび共同メンターと共に (2026 Summer)',
+    'experience.maop_caption': 'バージニア工科大学 ECE にて MAOP メンティーおよび指導教授と共に (2026 Summer)',
     'timeline.phd_title': '博士課程 & 大学院研究員',
     'timeline.phd_org': 'バージニア工科大学 (CS / ECE)',
     'timeline.phd_desc': '生体模倣RAS多言語脳波テレパシーBCIおよび機密GPU環境下でのLLMサービング性能プロファイリング研究。',
@@ -460,7 +460,7 @@ export const UI_TRANSLATIONS: Record<SupportedLanguage, Record<string, string>> 
     'experience.maop_org': 'Virginia Tech MAOP & Wydział ECE',
     'experience.maop_period': 'Lato 2026',
     'experience.maop_desc': 'Prowadzenie mentoringu dla studentów w programie Virginia Tech MAOP (Lato 2026) w zakresie zarządzania serwerami TEE (Trusted Execution Environment), izolacji sprzętowej AMD SEV-SNP i infrastruktury bezpieczeństwa.',
-    'experience.maop_caption': 'Mentoring na wydziale Virginia Tech ECE ze studentem MAOP (Lato 2026)',
+    'experience.maop_caption': 'Mentoring na wydziale Virginia Tech ECE ze studentem MAOP oraz profesorem prowadzącym (Lato 2026)',
     'timeline.phd_title': 'Doktorant i Badacz Akademicki',
     'timeline.phd_org': 'Virginia Tech (CS / ECE)',
     'timeline.phd_desc': 'Badania nad wielojęzycznym BCI RAS oraz profilowaniem wydajności obsługi LLM w poufnych GPU.',
@@ -541,7 +541,7 @@ export const UI_TRANSLATIONS: Record<SupportedLanguage, Record<string, string>> 
     'experience.maop_org': 'Virginia Tech MAOP & ECE Departement',
     'experience.maop_period': 'Summer 2026',
     'experience.maop_desc': 'Im Summer 2026 als Mentor im Virginia Tech MAOP Programm tätig gsi und Studierendi i TEE Server-Verwaltig, AMD SEV-SNP Hardware-Isolation und Cloud-Sicherheit usbildet.',
-    'experience.maop_caption': 'Mentoring-Session am Virginia Tech ECE mit MAOP Studierende (Summer 2026)',
+    'experience.maop_caption': 'Mentoring-Session am Virginia Tech ECE mit MAOP Studierende und em Professor (Summer 2026)',
     'timeline.phd_title': 'Doktorand & Forscher',
     'timeline.phd_org': 'Virginia Tech (CS / ECE)',
     'timeline.phd_desc': 'Forschig a mehrsprochigem BCI RAS und Performance-Profiling vo LLM Serving i vertrauliche GPUs.',
