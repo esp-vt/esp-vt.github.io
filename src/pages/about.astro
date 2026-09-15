@@ -50,46 +50,15 @@ const publications = [
       </div>
     </header>
 
+    <!-- Introduction -->
     <div class="about-section card">
       <h2 class="section-title" data-i18n="about.intro_title">Introduction / 소개</h2>
       <p class="bio-text" data-i18n="about.bio_p1">
-        안녕하세요! <strong>Virginia Tech</strong>에서 생체모방 망상활성계(RAS) 기반 뇌파 BCI(Brain-Computer Interface),
-        신뢰 실행 환경(TEE), 기밀 컴퓨팅(Confidential Computing), 데이터 프로비넌스(Verifiable Data Provenance) 및
-        안전한 거대 언어 모델(Trustworthy LLMs) 시스템을 연구하고 있는 대학원 연구원 <strong>박은성 (Eunseong Park)</strong>입니다.
-      </p>
-      <p class="bio-text" data-i18n="about.bio_p2">
-        비침습 8채널 EEG 기반의 언어 불변적 개념·감정 해독 텔레파시 엔진(Telepathy: 연산량 99.7% 절감, 지연시간 2.72ms)과
-        AMD SEV-SNP / NVIDIA Hopper H100 CC 기반의 하드웨어 무결성 검증 아키텍처(ConfML-Trust)를 설계하고 있습니다.
+        <strong>Virginia Tech</strong> 대학원 연구원 <strong>박은성 (Eunseong Park)</strong>입니다.
       </p>
     </div>
 
-    <div class="about-section card">
-      <h2 class="section-title" data-i18n="about.interests_title">Research Interests / 주요 연구 분야</h2>
-      <div class="interests-grid">
-        <div class="interest-item">
-          <div class="interest-icon">🧠</div>
-          <h4 data-i18n="about.interest_bci_title">Neural BCI & Biomimetic RAS</h4>
-          <p data-i18n="about.interest_bci_desc">생체모방 망상활성계(RAS) 게이팅(99.7% 연산 절감), 속발음(Inner Speech) 개념 해독 및 초저지연(2.72ms) 크로스-링구얼 신경 텔레파시</p>
-        </div>
-        <div class="interest-item">
-          <div class="interest-icon">🛡️</div>
-          <h4 data-i18n="about.interest_tee_title">Confidential Computing & TEE</h4>
-          <p data-i18n="about.interest_tee_desc">AMD SEV-SNP, Intel TDX, Intel SGX, ARM CCA 기반 하드웨어 격리 메모리 및 원격 증명(Remote Attestation)</p>
-        </div>
-        <div class="interest-item">
-          <div class="interest-icon">🤖</div>
-          <h4 data-i18n="about.interest_llm_title">Trustworthy & Confidential LLMs</h4>
-          <p data-i18n="about.interest_llm_desc">비신뢰 LLM 엔지니어링 에이전트 격리, 기밀 LoRA/PEFT 파인튜닝 및 악의적 데이터 오염 방지</p>
-        </div>
-        <div class="interest-item">
-          <div class="interest-icon">🔗</div>
-          <h4 data-i18n="about.interest_prov_title">Verifiable Data Provenance</h4>
-          <p data-i18n="about.interest_prov_desc">VFS 계층 비우회적 프로비넌스 Shim, Merkle Tree 해시 체이닝 및 하드웨어 서명 Quote 기반 무결성 감사</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Publications -->
+    <!-- Publications & Research -->
     <div class="about-section card">
       <h2 class="section-title" data-i18n="about.pub_section_title">Publications & Research / 주요 논문 및 프로젝트</h2>
       <div class="publications-list">
@@ -112,7 +81,47 @@ const publications = [
       </div>
     </div>
 
-    <!-- Experience Timeline -->
+    <!-- Experience & Mentorship -->
+    <div class="about-section card">
+      <h2 class="section-title" data-i18n="experience.section_title">Experience & Mentorship / 경력 및 멘토링</h2>
+      
+      <div class="experience-card">
+        <div class="experience-photo-col">
+          <img
+            src="/images/maop-mentorship-2026.jpg"
+            alt="MAOP Mentorship at Virginia Tech ECE"
+            class="experience-photo"
+          />
+          <p class="photo-caption" data-i18n="experience.maop_caption">
+            Virginia Tech ECE에서 MAOP 멘티 학부생 및 동료 멘토와 함께 (Summer 2026)
+          </p>
+        </div>
+
+        <div class="experience-content-col">
+          <div class="experience-header-row">
+            <div>
+              <h3 class="experience-role" data-i18n="experience.maop_title">MAOP 학부 연구 멘토 (Undergraduate Research Mentor)</h3>
+              <p class="experience-org" data-i18n="experience.maop_org">Virginia Tech MAOP & ECE Department</p>
+            </div>
+            <span class="period-pill" data-i18n="experience.maop_period">Summer 2026</span>
+          </div>
+
+          <p class="experience-desc" data-i18n="experience.maop_desc">
+            Virginia Tech MAOP(Multicultural Academic Opportunities Program) 여름 학부 연구 멘토로 활동하며, 학부생에게 하드웨어 신뢰 실행 환경(TEE) 서버 인프라 구축, AMD SEV-SNP 가상화 격리 및 서버 관리 전반을 지도 및 전수.
+          </p>
+
+          <div class="experience-tags">
+            <span class="tech-tag">TEE Server Administration</span>
+            <span class="tech-tag">AMD SEV-SNP</span>
+            <span class="tech-tag">Hardware Isolation</span>
+            <span class="tech-tag">Virginia Tech MAOP</span>
+            <span class="tech-tag">Research Mentorship</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Education & Timeline -->
     <div class="about-section card">
       <h2 class="section-title" data-i18n="section.timeline">Education & Timeline / 학력 및 이력</h2>
       <Timeline />
@@ -237,37 +246,7 @@ const publications = [
     line-height: 1.7;
   }
 
-  .interests-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 1.25rem;
-  }
-
-  .interest-item {
-    background-color: var(--bg-tertiary);
-    padding: 1.25rem;
-    border-radius: var(--radius-md);
-    border: 1px solid var(--border-color);
-  }
-
-  .interest-icon {
-    font-size: 1.8rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .interest-item h4 {
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    margin-bottom: 0.35rem;
-  }
-
-  .interest-item p {
-    font-size: 0.85rem;
-    color: var(--text-secondary);
-    line-height: 1.5;
-  }
-
+  /* Publications */
   .publications-list {
     display: flex;
     flex-direction: column;
@@ -310,7 +289,103 @@ const publications = [
     gap: 0.4rem;
   }
 
-  @media (max-width: 640px) {
+  /* Experience & Mentorship */
+  .experience-card {
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+    background-color: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 1.25rem;
+  }
+
+  .experience-photo-col {
+    width: 320px;
+    flex-shrink: 0;
+  }
+
+  .experience-photo {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3/2;
+    object-fit: cover;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+
+  .photo-caption {
+    font-size: 0.76rem;
+    color: var(--text-muted);
+    line-height: 1.4;
+    margin-top: 0.5rem;
+    text-align: center;
+  }
+
+  .experience-content-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .experience-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .experience-role {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.2rem;
+  }
+
+  .experience-org {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+  }
+
+  .period-pill {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 0.2rem 0.6rem;
+    border-radius: var(--radius-sm);
+    background-color: var(--bg-secondary);
+    color: var(--accent-primary);
+    border: 1px solid var(--border-color);
+  }
+
+  .experience-desc {
+    font-size: 0.92rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  .experience-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: auto;
+  }
+
+  .tech-tag {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: var(--radius-sm);
+    background-color: var(--bg-secondary);
+    color: var(--text-muted);
+    border: 1px solid var(--border-color);
+  }
+
+  @media (max-width: 768px) {
     .about-header {
       flex-direction: column;
       text-align: center;
@@ -318,6 +393,12 @@ const publications = [
     }
     .profile-links, .contact-badges {
       justify-content: center;
+    }
+    .experience-card {
+      flex-direction: column;
+    }
+    .experience-photo-col {
+      width: 100%;
     }
   }
 </style>
