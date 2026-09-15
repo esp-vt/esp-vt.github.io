@@ -14,6 +14,7 @@ const isCurrent = (path: string) => {
 <header class="glass-nav">
   <div class="container nav-container">
     <a href="/" class="logo-group">
+      <img src="/avatar.png" alt="Logo" class="logo-icon" />
       <span class="logo-name">{SITE_CONFIG.name}</span>
     </a>
 
@@ -70,6 +71,16 @@ const isCurrent = (path: string) => {
     font-weight: 700;
     font-size: 1.05rem;
     letter-spacing: -0.01em;
+    gap: 0.5rem;
+  }
+
+  .logo-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    object-fit: contain;
+    background-color: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
   }
 
   .logo-name {

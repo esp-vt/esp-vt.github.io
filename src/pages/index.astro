@@ -26,12 +26,15 @@ const techStacks = [
   <section class="minimal-hero">
     <div class="container">
       <div class="hero-top">
-        <div>
-          <div class="name-title-group">
-            <h1 class="hero-name">{SITE_CONFIG.name} <span class="korean-sub">({SITE_CONFIG.koreanName})</span></h1>
+        <div class="hero-intro-left">
+          <img src="/avatar.png" alt={SITE_CONFIG.name} class="hero-avatar" />
+          <div>
+            <div class="name-title-group">
+              <h1 class="hero-name">{SITE_CONFIG.name} <span class="korean-sub">({SITE_CONFIG.koreanName})</span></h1>
+            </div>
+            <p class="hero-role-text" data-i18n="hero.role">{SITE_CONFIG.role}</p>
+            <p class="hero-desc-text" data-i18n="hero.desc">{SITE_CONFIG.description}</p>
           </div>
-          <p class="hero-role-text" data-i18n="hero.role">{SITE_CONFIG.role}</p>
-          <p class="hero-desc-text" data-i18n="hero.desc">{SITE_CONFIG.description}</p>
         </div>
 
         <div class="hero-quick-links">
@@ -134,6 +137,23 @@ const techStacks = [
     align-items: flex-start;
     flex-wrap: wrap;
     gap: 1.5rem;
+  }
+
+  .hero-intro-left {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.25rem;
+  }
+
+  .hero-avatar {
+    width: 68px;
+    height: 68px;
+    border-radius: var(--radius-md);
+    background-color: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    object-fit: contain;
+    padding: 3px;
+    flex-shrink: 0;
   }
 
   .name-title-group {
