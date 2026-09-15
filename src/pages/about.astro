@@ -5,19 +5,21 @@ import { SITE_CONFIG } from '../site.config';
 
 const publications = [
   {
+    title: 'An Empirical Study of LLM Serving in Confidential GPUs (ISPASS 2026 🏆 Best Paper Honorable Mention)',
+    authors: 'Eunseong Park, et al.',
+    venue: 'IEEE International Symposium on Performance Analysis of Systems and Software (ISPASS)',
+    year: '2026',
+    paperLink: 'https://scholar.google.com/citations?view_op=view_citation&hl=en&user=4wkSQnMAAAAJ&citation_for_view=4wkSQnMAAAAJ:UebtZRa9Y70C',
+    slidesLink: 'https://docs.google.com/presentation/d/1UUo_bHe7imxecGs0XmJohEujCWnUzAihfuSSOhF4uhM/edit?usp=sharing',
+    codeLink: 'https://github.com/bearhw/Confidential-GPU-LLM-Serving-Performance-Profiling',
+  },
+  {
     title: 'Telepathy: Pure Concept & Affective Cross-Lingual Neural BCI via Biomimetic RAS Bio-Signal Gating',
     authors: 'Eunseong Park',
     venue: 'Neural BCI & Cognitive Neuro-AI Research / Open Source',
     year: '2026',
     paperLink: '#',
-    codeLink: 'https://github.com/esp-vt/telepathy',
-  },
-  {
-    title: 'ConfML-Trust: Hardware-Anchored Confidential Machine Learning with Verifiable Data & Model Lineage',
-    authors: 'Eunseong Park, et al.',
-    venue: 'Virginia Tech Systems & Security Research / Preprint',
-    year: '2026',
-    paperLink: '#',
+    slidesLink: '',
     codeLink: 'https://github.com/esp-vt',
   },
 ];
@@ -98,7 +100,10 @@ const publications = [
             <div class="pub-venue">
               <span>{pub.venue} ({pub.year})</span>
               <div class="pub-actions">
-                <a href={pub.paperLink} class="badge" data-i18n="projects.paper">📄 Paper / Preprint</a>
+                {pub.slidesLink && (
+                  <a href={pub.slidesLink} target="_blank" rel="noopener noreferrer" class="badge" data-i18n="projects.slides">📊 Slides</a>
+                )}
+                <a href={pub.paperLink} target="_blank" rel="noopener noreferrer" class="badge" data-i18n="projects.paper">📄 Paper / Preprint</a>
                 <a href={pub.codeLink} target="_blank" rel="noopener noreferrer" class="badge">💻 GitHub</a>
               </div>
             </div>

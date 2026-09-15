@@ -7,17 +7,16 @@ interface Props {
   github?: string;
   demo?: string;
   paper?: string;
+  slides?: string;
   idKey?: string;
 }
 
-const { title, description, tags, category = 'Project', github, demo, paper, idKey } = Astro.props;
+const { title, description, tags, category = 'Project', github, demo, paper, slides, idKey } = Astro.props;
 
 // Compute translation keys if idKey is available or fallback
 const autoIdKey = idKey || (
   title.toLowerCase().includes('telepathy') ? 'telepathy' :
-  title.toLowerCase().includes('confml') ? 'confml' :
-  title.toLowerCase().includes('prov-guard') || title.toLowerCase().includes('provenance') ? 'provguard' :
-  title.toLowerCase().includes('securelora') || title.toLowerCase().includes('lora') ? 'securelora' :
+  title.toLowerCase().includes('empirical') || title.toLowerCase().includes('ispass') || title.toLowerCase().includes('serving') ? 'ispass' :
   undefined
 );
 ---
@@ -27,12 +26,17 @@ const autoIdKey = idKey || (
     <span class="badge category-badge" data-i18n={autoIdKey ? `proj.${autoIdKey}.cat` : undefined}>{category}</span>
     <div class="links-group">
       {paper && (
-        <a href={paper} target="_blank" rel="noopener noreferrer" class="link-btn" title="Paper PDF">
-          <span data-i18n="projects.paper">PDF</span> ↗
+        <a href={paper} target="_blank" rel="noopener noreferrer" class="link-btn" title="Paper / Citation">
+          <span data-i18n="projects.paper">Paper</span> ↗
+        </a>
+      )}
+      {slides && (
+        <a href={slides} target="_blank" rel="noopener noreferrer" class="link-btn" title="Presentation Slides">
+          <span data-i18n="projects.slides">Slides</span> ↗
         </a>
       )}
       {github && (
-        <a href={github} target="_blank" rel="noopener noreferrer" class="link-btn" title="GitHub">
+        <a href={github} target="_blank" rel="noopener noreferrer" class="link-btn" title="GitHub Repository">
           <span>GitHub</span> ↗
         </a>
       )}
@@ -67,6 +71,8 @@ const autoIdKey = idKey || (
     justify-content: space-between;
     align-items: center;
     margin-bottom: 0.75rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
   }
 
   .category-badge {
@@ -79,7 +85,8 @@ const autoIdKey = idKey || (
   .links-group {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.4rem;
+    flex-wrap: wrap;
   }
 
   .link-btn {
